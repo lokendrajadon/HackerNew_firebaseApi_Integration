@@ -5,9 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import {
-    BrowserRouter as Router,
      NavLink
 } from "react-router-dom";
 import { useGlobalContext } from './Context'
@@ -17,9 +15,26 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+    background: '#f1f1f1',
+    boxShadow:' 0 0 20px 0 #ddd'
     },
     cardContent: {
         flexGrow: 1,
+    },
+    newsTitle:{
+        textDecoration: "none",
+        color:'inherit',
+        fontWeight:'bold'
+    },
+    cardContentSection: {
+        display: "grid",
+        fontSize: "0.8rem"
+    },
+    cardContentRow2:{
+        margin:"0 !important"
+    },
+    cursor:{
+        cursor:'pointer'
     }
 }));
 const NewsListing = ({ data, hide, pathname }) => {
@@ -36,11 +51,11 @@ const NewsListing = ({ data, hide, pathname }) => {
             <Grid item xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
-                        <Link href={story.url}>
-                            {story.title}
-                        </Link>
+                        
+                        <a href={story.url} className={classes.newsTitle}> {story.title}</a>
                     </CardContent>
-                    <CardActions>
+                    <CardActions  className={classes.cardContentSection}>
+                        <div className={classes.cardContentRow1}>
                         <Typography>
                             Points: {story.score} by:   <NavLink to={"/user/id="+story.by}> {story.by}</NavLink>
                         </Typography>
@@ -48,14 +63,18 @@ const NewsListing = ({ data, hide, pathname }) => {
                         <Typography>
                             {mapTime(story.time)}
                         </Typography>
-
-                        <Typography onClick={() => hide(story.id)}>
+                        </div>
+                       <div className={classes.cardContentRow2}>
+                       <Typography onClick={() => hide(story.id)} className={classes.cursor}>
                             Hide
                             </Typography>
                         {story.descendants ? <Typography>
                             Comments: {story.descendants}
                         </Typography> : ''}
 
+                       </div>
+
+                        
                     </CardActions>
                 </Card>
             </Grid>
